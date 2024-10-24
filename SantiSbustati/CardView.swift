@@ -1,25 +1,16 @@
 import SwiftUI
 
 struct CardView: View {
-    
+    @State var Saints: Stats = Stats(name: "Pasquale", city: "Vittoriosi", hp: 0, atk: 0, def: 0, spd: 0 )
+
     var body: some View {
-        
-        /**
-         Select the components here or directly from the canvas
-         and edit the properties from the inspector panel on the right
-         */
-        
         VStack {
-            Text("Superhero Name")
+            Text("San \(Saints.name)")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundStyle(.white)
                 .padding(.top, 30.0)
             
-            /**
-             Change the name of the image here.
-             Remember to put the image in the *Assets* folder in the Project navigator panel on the left
-             */
             Image("Placeholder")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -27,44 +18,56 @@ struct CardView: View {
                 .frame(width: 240, height: 240)
                 .padding(.horizontal, 40)
             
-            Text("Name Surname")
+            Text(Saints.city)
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundStyle(.white)
                 .padding()
-            
-            Text("Powers:")
-                .font(.title3)
-                .fontWeight(.bold)
-                .foregroundStyle(.white)
-            Text("Power 1, Power 2, Power 3, ..")
-                .foregroundStyle(.white)
-                .padding(.horizontal)
-            
-            Text("Weaknesses:")
-                .font(.title3)
-                .fontWeight(.bold)
-                .foregroundStyle(.white)
-            Text("Weakness 1, Weakness 2, ...")
-                .foregroundStyle(.white)
-                .padding(.horizontal)
-            
-            Text("Famous for:")
-                .font(.title3)
-                .fontWeight(.bold)
-                .foregroundStyle(.white)
-            Text("Fun Fact here")
-                .foregroundStyle(.white)
-                .padding([.horizontal, .bottom], 30.0)
+
+            HStack {
+                Image(systemName: "heart.circle")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+                Text(String(Saints.hp))  // Convert hp to String
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.white)
+            }
+            VStack {
+                HStack {
+                    Image(systemName: "arrow.2.circlepath.circle")
+                        .imageScale(.large)
+                        .foregroundStyle(.tint)
+                    Text(String(Saints.atk))
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                    
+                    Image(systemName: "arrow.2.circlepath.circle")
+                        .imageScale(.large)
+                        .foregroundStyle(.tint)
+                    Text(String(Saints.def))
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                    
+                    Image(systemName: "arrow.2.circlepath.circle")
+                        .imageScale(.large)
+                        .foregroundStyle(.tint)
+                    Text(String(Saints.spd))
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                    
+                }
+            }
         }
-        
         .background {
             RoundedRectangle(cornerRadius: 40)
                 .foregroundStyle(.gray)
             RoundedRectangle(cornerRadius: 40)
                 .strokeBorder(.black, lineWidth: 10)
         }
-        
         .padding()
     }
 }
