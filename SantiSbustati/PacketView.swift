@@ -1,33 +1,47 @@
 import SwiftUI
+import SceneKit
 
-struct LoopingAnimationView: View {
-    @State private var isScaled = false  // State variable to trigger the animation
-
+struct PacketView: View {
+    
+    @State private var index = 0  // Track the currently displayed model index
+    @State private var isScaled = false  // Track scaling for animation
+    @State private var models = [
+        Model(id: 0, name: "Sbusto", modelName: "CardModel.dae", details: "Lo sbusto sbustante")
+    ]
+    
     var body: some View {
         VStack {
-            // Red rectangle (above the yellow one)
-            Rectangle()
-                .frame(width: 140, height: 30)
-                .foregroundColor(.red)
-                .scaleEffect(isScaled ? 2.0 : 1.5)  // Scale up and down
+            
+            HStack {
+                SceneView(
+                    scene: setupScene(),  // Using a custom scene setup function
+                    options: [.autoenablesDefaultLighting, .allowsCameraControl]
+                )
+                .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.height / 2)
+                .scaleEffect(isScaled ? 3.3 : 3.15)  // Apply scaling effect
                 .onAppear {
-                    withAnimation(Animation.easeInOut(duration: 0.75).repeatForever(autoreverses: true)) {
-                        isScaled.toggle()  // Start animation
+                    // Start the animation with a repeating scaling effect
+                    withAnimation(Animation.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
+                        isScaled.toggle()
                     }
                 }
-
-                .padding(.top, 20)
-
-            // Yellow rectangle (below the red one)
-            Rectangle()
-                .frame(width: 140, height: 200)
-                .foregroundColor(.yellow)
-                .scaleEffect(isScaled ? 2.0 : 1.3)  // Scale up and down
+            }
         }
-        .padding()  // Add padding around the entire VStack
+    }
+    
+    // Helper function to set up the scene with alternative scaling
+    func setupScene() -> SCNScene? {
+        guard let scene = SCNScene(named: models[index].modelName) else { return nil }
+        
+        // Scale each child node individually
+        scene.rootNode.childNodes.forEach { node in
+            node.scale = SCNVector3(3, 3, 3)  // Adjust this scaling factor as needed
+        }
+        
+        return scene
     }
 }
 
 #Preview {
-    LoopingAnimationView()
+    PacketView()
 }
